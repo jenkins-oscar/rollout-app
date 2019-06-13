@@ -23,6 +23,13 @@ var server = http.createServer(function(req, resp){
 		}
 		else{
 			resp.writeHead(200, {'Content-Type': 'text/html'});
+
+			if(fileContent == 'jx-staging') {
+				resp.write('Hello there, you are running this app in a Staging Environment');
+			}
+			else if(fileContent == 'jx-production'){
+				resp.write('Hello there, you are running this app in a Production Environment');
+			}
 			resp.write(fileContent);
 			resp.end();
 		}
