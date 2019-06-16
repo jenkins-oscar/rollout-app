@@ -6,5 +6,12 @@
   "scripts": {
     "test": "echo \"no test specified\" && exit 0",
     "start": "node server.js"
+  },
+  "dependencies": {
+    "animate.css": "^3.7.2",
+    "ejs": "^2.6.1",
+    "express": "^4.17.1",
+    "pnotify": "^4.0.0",
+    "rox-node": "^4.5.3"
   }
 }

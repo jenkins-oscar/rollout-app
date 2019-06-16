@@ -1,0 +1,67 @@
+<!-- views/partials/head.ejs -->
+<meta charset="UTF-8">
+<title>Jenkins X For Life!</title>
+
+<!-- CSS (load bootstrap from a CDN) -->
+<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/vendor/pnotify/jquery.pnotify.default.css" /> 
+<!-- <link rel="stylesheet" type="text/css" href="/vendor/pnotify/jquery.pnotify.default.icons.css" /> -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons" />
+<style>
+    body {
+        padding-top:50px;
+        background: url('/images/car_buddies.jpg') no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+            -o-background-size: cover;
+            background-color: #ffffff;
+            }
+
+    .navbar {
+        background-color: #f8f8f8;
+        border-color: #e7e7e7;
+    }
+     .card {
+        opacity: .35;
+    }
+   p.text-center{
+        color:#ffffff;
+        opacity: .45;
+    }
+</style>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+<script src="/vendor/pnotify/jquery.pnotify.min.js"></script>
+
+<script>   
+ function showNotification(type,title,message) {
+    $.pnotify.defaults.history = false;
+    $.pnotify.defaults.closer = false;
+    //$.pnotify.defaults.styling = 'bootstrap4';
+
+    var stack_bar_bottom = {"dir1": "up", "dir2": "left", "spacing1": 20, "spacing2": 0,"firstpos1":window.innerHeight -170,"firstpos2":15};
+    var opts = {
+        title: title,
+        text: message,
+        cornerclass: "",
+        width: "40%",
+        stack: stack_bar_bottom,
+        type:type,
+        hide: true,
+        closer: false,
+        sticker: true,
+        history: false,
+        shadow:true,
+        animation: 'fade'
+    };
+
+    $.pnotify(opts);
+}  
+$(document).ready(function(){
+
+    showNotification('info','<i class="material-icons md-36">info</i> App Environment!','<img src="https://jenkins-x.io/img/profile.png" width="30" height="30" alt=""> <strong>Ahoy!</strong>  Looks like you are running this app on thr Jenkins X <strong><%= env %></strong> environment!<p>For more information on Environments use `jx get env`<p/>');
+
+});
+</script>
