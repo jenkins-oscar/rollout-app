@@ -5,20 +5,22 @@ var Rox = require('rox-node');
 var express = require('express');
 var app = express();
 
-// set the view engine to ejs
-app.set('view engine', 'ejs');
-
-// Routes
-app.get('/', function(req, res) {
-    res.render('pages/index');
-});
-
 
 const appSettingsContainer = {
 	jenkinsx_environment: new Rox.Flag()
   };
 
-var context= { jenkinsx_environment: 'jx-staging' };
+var context= { jenkinsx_environment: getJXEnvironment() };
+
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
+
+// Routes - we pass two variables to the HTML to preform approrpiate actions based on conditions.
+app.get('/', function(req, res) {
+    res.render('pages/index',{env:context.jenkinsx_environment,renderButton:appSettingsContainer.jenkinsx_environment.isEnabled(context)});
+});
+
 
 Rox.setCustomStringProperty('JenkinsX Environment', function(context){
 	return context.jenkinsx_environment;
