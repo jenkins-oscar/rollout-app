@@ -9,17 +9,8 @@ var app = express();
 const appSettingsContainer = {
 	jenkinsx_environment: new Rox.Flag()
   };
-
+console.log("-------------- getJXEnvironment() VALUE: "+getJXEnvironment()+'---------------------')
 var context= { jenkinsx_environment: getJXEnvironment() };
-
-// set the view engine to ejs
-app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/public'));
-
-// Routes - we pass two variables to the HTML to preform approrpiate actions based on conditions.
-app.get('/', function(req, res) {
-    res.render('pages/index',{env:context.jenkinsx_environment,renderButton:appSettingsContainer.jenkinsx_environment.isEnabled(context)});
-});
 
 
 Rox.setCustomStringProperty('JenkinsX Environment', function(context){
@@ -52,30 +43,40 @@ async function setupRox() {
 	console.log(appSettingsContainer.jenkinsx_environment.isEnabled(context));
 
 	if (appSettingsContainer.jenkinsx_environment.isEnabled(context)) {
-		console.log('We are skiing in Staging Jenkins X environment!');
+		console.log('We are in Staging Jenkins X environment!');
+	 }
+	 else {
+		console.log('What Jenkins X environment? : '+ context.jenkinsx_environment);
 	 }
 	
  });
 
 
-
 function getJXEnvironment() {
 	var _env = '';
-
+		
 	fileSystem.readFile('/var/run/secrets/kubernetes.io/serviceaccount/namespace', function (error, fileContent) {
 		if (error) {
-			_env = error;
+			console.log('getJXEnvironment(): hey there was an error reading the file: '+error);
+			throw error;
 		}
-		else {
-			_env = fileContent;
-			
-		}
+	
+		_env = fileContent;
+		console.log("getJXEnvrionment(): value:"+ _env);
+		
 	});
 
-	console.log("getJXEnvrionment value:"+ _env);
 	return _env;
 }
 
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
 
+// Routes - we pass two variables to the HTML to preform approrpiate actions based on conditions.
+app.get('/', function(req, res) {
+    res.render('pages/index',{env:context.jenkinsx_environment,renderButton:appSettingsContainer.jenkinsx_environment.isEnabled(context)});
+});
 app.listen(8080);
+
 console.log('Oh check this out, your app is listening on port 8080!');
