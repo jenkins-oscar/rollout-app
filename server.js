@@ -12,15 +12,6 @@ const appSettingsContainer = {
 
 var context= { jenkinsx_environment: getJXEnvironment() };
 
-// set the view engine to ejs
-app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/public'));
-
-// Routes - we pass two variables to the HTML to preform approrpiate actions based on conditions.
-app.get('/', function(req, res) {
-    res.render('pages/index',{env:context.jenkinsx_environment,renderButton:appSettingsContainer.jenkinsx_environment.isEnabled(context)});
-});
-
 
 Rox.setCustomStringProperty('JenkinsX Environment', function(context){
 	return context.jenkinsx_environment;
@@ -75,6 +66,13 @@ function getJXEnvironment() {
 	return _env;
 }
 
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
 
+// Routes - we pass two variables to the HTML to preform approrpiate actions based on conditions.
+app.get('/', function(req, res) {
+    res.render('pages/index',{env:context.jenkinsx_environment,renderButton:appSettingsContainer.jenkinsx_environment.isEnabled(context)});
+});
 app.listen(8080);
 console.log('Oh check this out, your app is listening on port 8080!');
