@@ -9,7 +9,7 @@ var app = express();
 const appSettingsContainer = {
 	jenkinsx_environment: new Rox.Flag()
   };
-
+console.log("-------------- getJXEnvironment() VALUE: "+getJXEnvironment()+'---------------------')
 var context= { jenkinsx_environment: getJXEnvironment() };
 
 
