@@ -45,6 +45,9 @@ async function setupRox() {
 	if (appSettingsContainer.jenkinsx_environment.isEnabled(context)) {
 		console.log('We are in Staging Jenkins X environment!');
 	 }
+	 else {
+		console.log('What Jenkins X environment? : '+ context.jenkinsx_environment);
+	 }
 	
  });
 
@@ -57,10 +60,10 @@ function getJXEnvironment() {
 			console.log('getJXEnvironment(): hey there was an error reading the file: '+error);
 			throw error;
 		}
-		else {
-			_env = fileContent;
-			console.log("getJXEnvrionment(): value:"+ _env);
-		}
+	
+		_env = fileContent;
+		console.log("getJXEnvrionment(): value:"+ _env);
+		
 	});
 
 	return _env;
@@ -75,4 +78,5 @@ app.get('/', function(req, res) {
     res.render('pages/index',{env:context.jenkinsx_environment,renderButton:appSettingsContainer.jenkinsx_environment.isEnabled(context)});
 });
 app.listen(8080);
+
 console.log('Oh check this out, your app is listening on port 8080!');
