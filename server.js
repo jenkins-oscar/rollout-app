@@ -9,8 +9,18 @@ var app = express();
 const appSettingsContainer = {
 	jenkinsx_environment: new Rox.Flag()
   };
-console.log("-------------- getJXEnvironment() VALUE: "+getJXEnvironment()+'---------------------')
+
 var context= { jenkinsx_environment: getJXEnvironment() };
+  console.log("-------------- getJXEnvironment() VALUE: "+getJXEnvironment()+'---------------------');
+
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
+
+// Routes - we pass two variables to the HTML to preform approrpiate actions based on conditions.
+app.get('/', function(req, res) {
+    res.render('pages/index',{env:context.jenkinsx_environment,renderButton:appSettingsContainer.jenkinsx_environment.isEnabled(context)});
+});
 
 
 Rox.setCustomStringProperty('JenkinsX Environment', function(context){
@@ -38,7 +48,8 @@ async function setupRox() {
  
  
  setupRox().then((value) => {
-	console.log(value);
+	console.log('Rox returned value: '+ value);
+	console.log('Rox passed context:' + context.jenkinsx_environment);
 	console.log('setupBox() finished');
 	console.log(appSettingsContainer.jenkinsx_environment.isEnabled(context));
 
@@ -69,14 +80,7 @@ function getJXEnvironment() {
 	return _env;
 }
 
-// set the view engine to ejs
-app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/public'));
 
-// Routes - we pass two variables to the HTML to preform approrpiate actions based on conditions.
-app.get('/', function(req, res) {
-    res.render('pages/index',{env:context.jenkinsx_environment,renderButton:appSettingsContainer.jenkinsx_environment.isEnabled(context)});
-});
 app.listen(8080);
 
 console.log('Oh check this out, your app is listening on port 8080!');
