@@ -69,7 +69,7 @@ function getJXEnvironment() {
 	fileSystem.readFile('/var/run/secrets/kubernetes.io/serviceaccount/namespace', function (error, fileContent) {
 		if (error) {
 			console.log('getJXEnvironment(): hey there was an error reading the file: '+error);
-			throw error;
+			_env = error;
 		}
 	
 		_env = fileContent;
