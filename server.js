@@ -13,6 +13,7 @@ const appSettingsContainer = {
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
+// this property must exist in the Rollout Dashboard.
 Rox.setCustomStringProperty('JenkinsX Environment', function(context){
 	return context.jenkinsx_environment;
   });
@@ -28,6 +29,8 @@ async function sleep(ms) {
 async function setupRox() {
 	console.log('calling Rox.setup for Staging...');
 	
+	// the parameter for setup, is the ID of the Staging Environment in the Rollout Dashboard.
+	// you can use other environment IDs but those must be defined in the Rollout Dashboard.
 	var _result =  await Rox.setup('5d016c4223864938a85c1d33', {
 
 	  });
@@ -38,7 +41,6 @@ async function setupRox() {
  
  
  setupRox().then((value) => {
-	console.log('setupRox() returned value: '+ value);
 
 	if (appSettingsContainer.jenkinsx_environment.isEnabled(context)) {
 		console.log('----- We are in Staging Jenkins X environment! --------');
@@ -53,23 +55,14 @@ async function setupRox() {
 function getJXEnvironment() {
 	var _env = '';
 	_env = fileSystem.readFileSync('/var/run/secrets/kubernetes.io/serviceaccount/namespace', 'utf8');
-	// fileSystem.readFile('/var/run/secrets/kubernetes.io/serviceaccount/namespace', function (error, fileContent) {
-	// 	if (error) {
-	// 		console.log('getJXEnvironment(): hey there was an error reading the file: '+error);
-	// 		_env = error;
-	// 	}
-	
-	// 	_env = fileContent;
-	// 	console.log("getJXEnvrionment(): value:"+ _env);
-		
-	// });
+
 	return _env;
 }
 
 // Routes - we pass two variables to the HTML to preform approrpiate actions based on conditions.
 app.get('/', function(req, res) {
 
-	// first ensure we have our file contents
+	// first ensure we have our file contents, which contains the k8s namespace we are in.
 	context = { jenkinsx_environment: getJXEnvironment() };
 	console.log('----------- app.get() - called getJXEnvironment() and got: '+ context.jenkinsx_environment+' so rendering ---------------------');
     res.render('pages/index',{env:context.jenkinsx_environment,renderButton:appSettingsContainer.jenkinsx_environment.isEnabled(context)});
