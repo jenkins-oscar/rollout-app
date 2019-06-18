@@ -14,13 +14,13 @@ To get started, you will need to do the following:
 3. Create a Custom Property, call it `JenkinsX Environment` of type `string` by going to left navigation **App Settings** > **Custom Properties**, click _Add New Custom Property_
 4. Create a **Flag** within the Rollout `Staging` environment, by clicking on the left nav under Staging > Experiements, then click **New Experiement** and select `Create Flag1`  Confusing right, but that should work.
 
-![Create Flag](images/create_flag_staging.png)
+![Create Flag](public/images/create_flag_staging.png)
 
 Call the flag `jenkinsx environment`, this will map to an internal name of `ski-rollout.jenkinsx_environment` which we create via code.
 
 5. Create a **Target Group** and configure it as shown below
 
-![Target Group](images/target_group.png)
+![Target Group](public/images/target_group.png)
 
 We are creating a **Target Group** that is _targeting_ the Staging Environment in Jenkins X.  
 
@@ -28,6 +28,6 @@ We are creating a **Target Group** that is _targeting_ the Staging Environment i
 
 6. Create an **Experiment** and configure it to target the group you created in the previous step.  It should be configured as follows:
 
-![Experiement in Staging](images/experiment_staging.png)
+![Experiement in Staging](public/images/experiment_staging.png)
 
 Ensure, that the dropdown, is set to `true`.
