@@ -18,7 +18,7 @@ Rox.setCustomStringProperty('JenkinsX Environment', function(context){
 	return context.jenkinsx_environment;
   });
 
-
+// change the name accordingly
 Rox.register('ski-rollout', appSettingsContainer);
 
 async function sleep(ms) {

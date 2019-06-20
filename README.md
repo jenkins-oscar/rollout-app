@@ -11,6 +11,15 @@ To get started, you will need to do the following:
 
 1. Sign up for a rollout.io account.
 2. Ensure you have to Rollout Environments (Production, Staging) 
+
+## Modify the Server.js
+```bash
+	// the parameter for setup, is the ID of the Staging Environment in the Rollout Dashboard.
+	// you can use other environment IDs but those must be defined in the Rollout Dashboard.
+	var _result =  await Rox.setup('<ENTER_ENVIRONMENT_ID>', {
+
+	  });
+```
 3. Create a Custom Property, call it `JenkinsX Environment` of type `string` by going to left navigation **App Settings** > **Custom Properties**, click _Add New Custom Property_
 4. Create a **Flag** within the Rollout `Staging` environment, by clicking on the left nav under Staging > Experiements, then click **New Experiement** and select `Create Flag1`  Confusing right, but that should work.
 
